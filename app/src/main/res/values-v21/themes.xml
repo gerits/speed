@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Speed" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorControlHighlight">@color/rippleMaterialDark</item>
+
+        <item name="android:activityOpenEnterAnimation">@android:transition/explode</item>
+        <item name="android:windowSharedElementEnterTransition">@android:transition/explode</item>
+        <item name="android:windowSharedElementReenterTransition">@android:transition/explode</item>
+
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
+    </style>
+
+    <!--<style name="Theme.Speed.BottomBar" parent="@style/Theme.AppCompat.NoActionBar">-->
+        <!--<item name="android:colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="android:colorPrimaryDark">@android:color/black</item>-->
+        <!--<item name="android:colorAccent">@color/colorAccent</item>-->
+
+        <!--<item name="android:windowActionBar">false</item>-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--<item name="android:windowTranslucentStatus">false</item>-->
+    <!--</style>-->
+</resources>

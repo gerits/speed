@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1D6339</color>
+    <color name="colorPrimaryDark">#174f2d</color>
+
+    <color name="colorAccent">#ff9800</color>
+    <color name="colorAccentLight">#ffa726</color>
+
+    <color name="colorTextPrimary">#ff000000</color>
+    <color name="colorTextSecondary">#8C000000</color>
+
+    <color name="rippleMaterialDark">#40ffffff</color>
+
+
+    <!-- Speed View Paints -->
+    <color name="majorPaint">#ffffffff</color>
+    <color name="middlePaint">#ffffffff</color>
+    <color name="minorPaint">#55ffffff</color>
+    <color name="panelPaint">#55000000</color>
+
+</resources>

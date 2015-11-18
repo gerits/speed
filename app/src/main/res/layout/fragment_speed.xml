@@ -1,0 +1,15 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:res="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+    <be.rubengerits.speedview.SpeedView
+        android:id="@+id/speedView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        res:speedColorAccent="@color/colorAccent"
+        res:speedColorPrimary="@android:color/white"
+        res:speedColorPrimaryDark="@android:color/darker_gray"/>
+
+</RelativeLayout>

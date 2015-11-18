@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_size"
+                android:paddingEnd="@dimen/activity_margin"
+                android:paddingLeft="@dimen/activity_margin"
+                android:paddingRight="@dimen/activity_margin"
+                android:paddingStart="@dimen/activity_margin">
+
+    <RelativeLayout
+        android:id="@+id/list_item_entry_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:layout_toLeftOf="@+id/list_item_entry_action"
+        android:layout_toStartOf="@+id/list_item_entry_action">
+
+        <TextView
+            android:id="@+id/list_item_entry_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+
+        <TextView
+            android:id="@+id/list_item_entry_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/list_item_entry_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignStart="@id/list_item_entry_title"
+            android:layout_below="@id/list_item_entry_title"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/list_item_entry_action"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/imagebutton_selector"
+        android:contentDescription="@string/delete"
+        android:padding="16dp"
+        android:src="@drawable/ic_replay"/>
+
+</RelativeLayout>

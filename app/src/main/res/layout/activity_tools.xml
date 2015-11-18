@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/speedToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:onClick="onBackClick"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_arrow_back_24px"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/tools_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            android:transitionName="tools">
+
+            <LinearLayout
+                android:id="@+id/tools_button"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/gps_status"
+                    android:layout_width="?android:attr/actionBarSize"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:background="@drawable/imagebutton_selector"
+                    android:contentDescription="@string/gps_status"
+                    android:padding="16dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_gps_not_fixed"/>
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/details_tools"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+            <fragment
+                android:id="@+id/details_fragment_stopwatch"
+                android:name="be.rubengerits.speed.fragments.details.StopwatchDetailsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_size"
+                tools:layout="@layout/details_item_action"/>
+
+            <fragment
+                android:id="@+id/details_fragment_max_speed"
+                android:name="be.rubengerits.speed.fragments.details.TopSpeedDetailsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_size"
+                tools:layout="@layout/details_item_action"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_size"
+                android:gravity="center_vertical"
+                android:paddingEnd="@dimen/activity_margin"
+                android:paddingLeft="@dimen/activity_margin"
+                android:paddingRight="@dimen/activity_margin"
+                android:paddingStart="@dimen/activity_margin"
+                android:text="@string/details_location"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+            <fragment
+                android:id="@+id/details_fragment_accuracy"
+                android:name="be.rubengerits.speed.fragments.details.AccuracyDetailsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_size"
+                tools:layout="@layout/details_item"/>
+
+            <fragment
+                android:id="@+id/details_fragment_latitude"
+                android:name="be.rubengerits.speed.fragments.details.LatitudeDetailsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_size"
+                tools:layout="@layout/details_item"/>
+
+            <fragment
+                android:id="@+id/details_fragment_longitude"
+                android:name="be.rubengerits.speed.fragments.details.LongitudeDetailsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_size"
+                tools:layout="@layout/details_item"/>
+
+            <fragment
+                android:id="@+id/details_fragment_altitude"
+                android:name="be.rubengerits.speed.fragments.details.AltitudeDetailsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_size"
+                tools:layout="@layout/details_item"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
+

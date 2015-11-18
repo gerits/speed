@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_locality_metric"
+        android:checkable="true"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:showAsAction="never"
+        android:title="@string/settings_i18n_kmh"/>
+
+    <item
+        android:id="@+id/menu_locality_imperial"
+        android:checkable="true"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:showAsAction="never"
+        android:title="@string/settings_i18n_mph"/>
+
+    <!--<item-->
+    <!--android:id="@+id/menu_speed"-->
+    <!--android:icon="@android:drawable/ic_menu_preferences"-->
+    <!--android:showAsAction="never"-->
+    <!--android:title="@string/settings_speed_limit"/>-->
+
+</menu>

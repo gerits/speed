@@ -14,6 +14,7 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -66,9 +67,10 @@ public class SpeedView extends View implements ValueAnimator.AnimatorUpdateListe
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SpeedView, 0, 0);
         try {
-            colorPrimary = a.getColor(R.styleable.SpeedView_speedColorPrimary, android.R.color.black);
-            colorPrimaryDark = a.getColor(R.styleable.SpeedView_speedColorPrimaryDark, android.R.color.black);
-            colorAccent = a.getColor(R.styleable.SpeedView_speedColorAccent, android.R.color.black);
+            int defaultColor = ContextCompat.getColor(getContext(), android.R.color.black);
+            colorPrimary = a.getColor(R.styleable.SpeedView_speedColorPrimary, defaultColor);
+            colorPrimaryDark = a.getColor(R.styleable.SpeedView_speedColorPrimaryDark, defaultColor);
+            colorAccent = a.getColor(R.styleable.SpeedView_speedColorAccent, defaultColor);
         } finally {
             a.recycle();
         }
@@ -120,6 +122,8 @@ public class SpeedView extends View implements ValueAnimator.AnimatorUpdateListe
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        boolean cropped = boundaries.isSet();
+
         boundaries.clear();
 
         virtualCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
@@ -137,12 +141,16 @@ public class SpeedView extends View implements ValueAnimator.AnimatorUpdateListe
         boundaries.validateXMax(boundaries.getXMax() + padding);
         boundaries.validateYMax(boundaries.getYMax() + padding);
 
-        Bitmap croppedBitmap = cropBitmapBoundaries(bitmap, boundaries);
+        if (!cropped) {
+            bitmap = cropBitmapToBoundaries(bitmap, boundaries);
+            virtualCanvas = new Canvas(bitmap);
+            virtualCanvas.save();
+        }
 
-        int x = (getMeasuredWidth() - croppedBitmap.getWidth()) / 2;
-        int y = (getMeasuredHeight() - croppedBitmap.getHeight()) / 2;
+        int x = (getMeasuredWidth() - bitmap.getWidth()) / 2;
+        int y = (getMeasuredHeight() - bitmap.getHeight()) / 2;
 
-        canvas.drawBitmap(croppedBitmap, x, y, null);
+        canvas.drawBitmap(bitmap, x, y, null);
     }
 
     private void drawNeedle(Canvas c) {
@@ -161,7 +169,7 @@ public class SpeedView extends View implements ValueAnimator.AnimatorUpdateListe
         c.drawPath(path, needlePaint);
     }
 
-    private Bitmap cropBitmapBoundaries(Bitmap sourceBitmap, BoundaryRectangle boundaryRectangle) {
+    private Bitmap cropBitmapToBoundaries(Bitmap sourceBitmap, BoundaryRectangle boundaryRectangle) {
         int minX = boundaryRectangle.getXMin();
         int minY = boundaryRectangle.getYMin();
         int maxX = boundaryRectangle.getXMax();
@@ -273,7 +281,7 @@ public class SpeedView extends View implements ValueAnimator.AnimatorUpdateListe
     }
 
     private void drawErrorMessage(Canvas canvas) {
-        Drawable drawable = getContext().getDrawable(R.drawable.ic_error_24dp);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_error_24dp);
         drawable.setColorFilter(colorPrimary, PorterDuff.Mode.MULTIPLY);
         drawable.setAlpha(51);
         drawable.setBounds((int) (size * 0.25f), (int) (size * 0.25f), (int) (size * 0.75f), (int) (size * 0.75f));
@@ -296,6 +304,7 @@ public class SpeedView extends View implements ValueAnimator.AnimatorUpdateListe
         bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
         virtualCanvas = new Canvas(bitmap);
         virtualCanvas.save();
+        boundaries.clear();
     }
 
     private int calculateDistance(int min, int max) {

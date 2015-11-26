@@ -76,35 +76,4 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/speedAdjusterPanel"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:layout_gravity="bottom"
-        android:animateLayoutChanges="true"
-        android:background="@android:color/white"
-        android:elevation="8dp"
-        android:visibility="gone">
-
-        <SeekBar
-            android:id="@+id/speedAdjuster"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/speedAdjusterConfirm"
-            android:layout_toStartOf="@+id/speedAdjusterConfirm"
-            android:max="55"/>
-
-        <ImageButton
-            android:id="@+id/speedAdjusterConfirm"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/confirm"
-            android:src="@drawable/ic_check"/>
-
-    </RelativeLayout>
-
 </merge>

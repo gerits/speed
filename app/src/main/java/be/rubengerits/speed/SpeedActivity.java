@@ -1,13 +1,16 @@
 package be.rubengerits.speed;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,16 +21,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 
 import be.rubengerits.android.imagetogglebar.ImageToggleBar;
 import be.rubengerits.android.imagetogglebar.ImageToggleBarValueChangeListener;
 import be.rubengerits.speed.fragments.SpeedFragment;
 import be.rubengerits.speed.location.LocationChangeListener;
-import be.rubengerits.speed.location.LocationEvent;
 import be.rubengerits.speed.speedservices.GpsStatusService;
 import be.rubengerits.speed.speedservices.SpeedServiceRepository;
 import be.rubengerits.speed.speedservices.StopWatchSpeedService;
@@ -44,6 +44,7 @@ public class SpeedActivity extends AppCompatActivity implements ImageToggleBarVa
     public static final String SPEED_LIMIT_CAR = "speedLimitCar";
     public static final String SPEED_LIMIT_BIKE = "speedLimitBike";
     public static final String SPEED_LIMIT_WALK = "speedLimitWalk";
+    private static final int REQUEST_LOCATION = 0;
 
     private LocationManager mLocationManager;
     private LocationChangeListener mLocationChangeListener;
@@ -69,33 +70,6 @@ public class SpeedActivity extends AppCompatActivity implements ImageToggleBarVa
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setupSpeedType();
-
-        SeekBar speedAdjuster = ButterKnife.findById(this, R.id.speedAdjuster);
-        speedAdjuster.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                SpeedFragment fragment = (SpeedFragment) getSupportFragmentManager().findFragmentById(R.id.speedFragment);
-
-                if (fragment != null) {
-                    LocationEvent locationEvent = new LocationEvent();
-                    Location location = new Location("");
-                    location.setSpeed(seekBar.getProgress());
-                    locationEvent.setLocation(location);
-                    fragment.onEvent(locationEvent);
-                }
-            }
-        });
-
     }
 
     private void setupSpeedServices() {
@@ -128,13 +102,6 @@ public class SpeedActivity extends AppCompatActivity implements ImageToggleBarVa
         if (fragment != null) {
             fragment.setMaxValue(value);
         }
-
-        View speedAdjusterPanel = ButterKnife.findById(this, R.id.speedAdjusterPanel);
-        if (View.VISIBLE == speedAdjusterPanel.getVisibility()) {
-            SeekBar speedAdjuster = ButterKnife.findById(this, R.id.speedAdjuster);
-            ImageToggleBar speedToggleBar = ButterKnife.findById(this, R.id.image_toggle_bar);
-            speedAdjuster.setProgress(Math.round(speedToggleBar.getSelectedSpeed()));
-        }
     }
 
     @OnClick(R.id.tools_button)
@@ -163,21 +130,26 @@ public class SpeedActivity extends AppCompatActivity implements ImageToggleBarVa
     protected void onResume() {
         super.onResume();
 
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationChangeListener);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        } else {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationChangeListener);
 
-        GpsStatusService gpsStatusService = (GpsStatusService) SpeedServiceRepository.getInstance().getSpeedService(GpsStatusService.ID);
-        gpsStatusService.addValueChangeListener(this);
-        gpsStatusService.setStatus(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? 1 : 0);
+            GpsStatusService gpsStatusService = (GpsStatusService) SpeedServiceRepository.getInstance().getSpeedService(GpsStatusService.ID);
+            gpsStatusService.addValueChangeListener(this);
+            gpsStatusService.setStatus(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? 1 : 0);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        mLocationManager.removeUpdates(mLocationChangeListener);
-
-        GpsStatusService gpsStatusService = (GpsStatusService) SpeedServiceRepository.getInstance().getSpeedService(GpsStatusService.ID);
-        gpsStatusService.removeValueChangeListener(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mLocationManager.removeUpdates(mLocationChangeListener);
+            GpsStatusService gpsStatusService = (GpsStatusService) SpeedServiceRepository.getInstance().getSpeedService(GpsStatusService.ID);
+            gpsStatusService.removeValueChangeListener(this);
+        }
     }
 
     @Override
@@ -228,16 +200,6 @@ public class SpeedActivity extends AppCompatActivity implements ImageToggleBarVa
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    @OnClick(R.id.speedAdjusterConfirm)
-    public void saveMaxSpeed(View v) {
-        View speedAdjusterPanel = ButterKnife.findById(this, R.id.speedAdjusterPanel);
-        if (View.VISIBLE == speedAdjusterPanel.getVisibility()) {
-            speedAdjusterPanel.startAnimation(AnimationUtils.loadAnimation(this, R.anim.bottom_down));
-            speedAdjusterPanel.setVisibility(View.GONE);
-        }
     }
 
     @Override

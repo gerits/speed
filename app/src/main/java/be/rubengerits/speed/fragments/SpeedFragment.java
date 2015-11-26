@@ -1,10 +1,5 @@
 package be.rubengerits.speed.fragments;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,13 +14,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
-public class SpeedFragment extends Fragment implements SensorEventListener {
+public class SpeedFragment extends Fragment /*implements SensorEventListener*/ {
 
     @Bind(R.id.speedView)
     protected SpeedView mSpeedView;
 
-    private SensorManager mSensorManager;
-    private Sensor mLight;
+//    private SensorManager mSensorManager;
+//    private Sensor mLight;
 
     public SpeedFragment() {
         super();
@@ -37,8 +32,8 @@ public class SpeedFragment extends Fragment implements SensorEventListener {
 
         EventBus.getDefault().register(this);
 
-        mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
-        mLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+//        mSensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+//        mLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
     }
 
     @Override
@@ -59,7 +54,7 @@ public class SpeedFragment extends Fragment implements SensorEventListener {
             EventBus.getDefault().register(this);
         }
 
-        mSensorManager.registerListener(this, mLight, SensorManager.SENSOR_DELAY_UI);
+//        mSensorManager.registerListener(this, mLight, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
@@ -67,7 +62,7 @@ public class SpeedFragment extends Fragment implements SensorEventListener {
         super.onPause();
 
         EventBus.getDefault().unregister(this);
-        mSensorManager.unregisterListener(this);
+//        mSensorManager.unregisterListener(this);
     }
 
     @Override
@@ -75,7 +70,7 @@ public class SpeedFragment extends Fragment implements SensorEventListener {
         super.onDestroy();
 
         EventBus.getDefault().unregister(this);
-        mSensorManager.unregisterListener(this);
+//        mSensorManager.unregisterListener(this);
     }
 
     public void onEvent(LocationEvent event) {
@@ -94,8 +89,8 @@ public class SpeedFragment extends Fragment implements SensorEventListener {
         mSpeedView.setLocality(locality);
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
+//    @Override
+//    public void onSensorChanged(SensorEvent event) {
 //        TODO enable light/dark theme?
 //        if (event.values[0] > 50) {
 //            // light theme
@@ -103,10 +98,10 @@ public class SpeedFragment extends Fragment implements SensorEventListener {
 //            // dark theme
 //            getActivity().getSystemService(Context.UI_MODE_SERVICE);
 //        }
-    }
+//    }
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
+//    @Override
+//    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+//
+//    }
 }

@@ -2,11 +2,13 @@ package be.rubengerits.speed.speedservices;
 
 import android.location.LocationProvider;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import be.rubengerits.speed.location.LocationEvent;
-import de.greenrobot.event.EventBus;
 
 public class GpsStatusService implements SpeedService {
 
@@ -25,6 +27,7 @@ public class GpsStatusService implements SpeedService {
         EventBus.getDefault().register(this);
     }
 
+    @Subscribe
     public void onEvent(LocationEvent event) {
         setStatus(event.getStatus());
     }

@@ -14,10 +14,12 @@ import be.rubengerits.speed.speedservices.TopSpeedService;
 import be.rubengerits.speed.utils.SpeedUtils;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class TopSpeedDetailsFragment extends AbstractDetailsFragment {
 
     private TopSpeedService service;
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,14 +47,14 @@ public class TopSpeedDetailsFragment extends AbstractDetailsFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.details_item_action, container);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

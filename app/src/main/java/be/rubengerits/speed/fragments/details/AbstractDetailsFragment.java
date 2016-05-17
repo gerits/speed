@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import be.rubengerits.speed.R;
 import be.rubengerits.speed.location.LocationEvent;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 
 public abstract class AbstractDetailsFragment extends Fragment {
 
@@ -45,6 +47,7 @@ public abstract class AbstractDetailsFragment extends Fragment {
 
     protected abstract String getValue();
 
+    @Subscribe
     public void onEvent(LocationEvent event) {
         // required for EventBus support in sub classes
     }

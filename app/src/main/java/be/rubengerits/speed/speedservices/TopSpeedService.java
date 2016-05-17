@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import be.rubengerits.speed.R;
 import be.rubengerits.speed.location.LocationEvent;
-import de.greenrobot.event.EventBus;
 
 public class TopSpeedService implements SpeedService {
 
@@ -28,6 +30,7 @@ public class TopSpeedService implements SpeedService {
         EventBus.getDefault().register(this);
     }
 
+    @Subscribe
     public void onEvent(LocationEvent event) {
         if (event.getLocation() != null && event.getLocation().hasSpeed()) {
             float speed = event.getLocation().getSpeed();

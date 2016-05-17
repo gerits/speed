@@ -12,22 +12,24 @@ import be.rubengerits.speed.speedservices.SpeedServiceRepository;
 import be.rubengerits.speed.speedservices.StopWatchSpeedService;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class StopwatchDetailsFragment extends AbstractDetailsFragment {
 
     private StopWatchSpeedService speedService;
+    private Unbinder unbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.details_item_action, container);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

@@ -33,9 +33,9 @@ public class SpeedFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View result = inflater.inflate(R.layout.fragment_speed, container, false);
-        unbinder = ButterKnife.bind(this, result);
-        return result;
+        View view = inflater.inflate(R.layout.fragment_speed, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override

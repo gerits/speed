@@ -1,4 +1,14 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
+}
 
 android {
     compileSdkVersion 23
@@ -34,9 +44,9 @@ dependencies {
     compile project(':imagetogglebar')
     compile 'org.greenrobot:eventbus:' + deps.eventbusVersion
     compile 'com.jakewharton:butterknife:' + deps.butterknifeVersion
+    apt 'com.jakewharton:butterknife-compiler:' + deps.butterknifeVersion
     compile 'com.android.support:appcompat-v7:' + deps.androidSupportVersion
     compile 'com.android.support:design:' + deps.androidSupportVersion
-
 }
 
 

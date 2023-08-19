@@ -1,9 +1,10 @@
 package be.rubengerits.android.imagetogglebar;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import androidx.core.content.ContextCompat;
 
 public class ImageToggleButton extends ImageButton {
 

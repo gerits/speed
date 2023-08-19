@@ -2,10 +2,15 @@
 
 buildscript {
     repositories {
-        jcenter()
+        google()
+        mavenCentral()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:7.3.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -14,13 +19,8 @@ buildscript {
 
 allprojects {
 
-    ext.deps = [
-            androidSupportVersion: '23.2.1',
-            butterknifeVersion   : '8.0.1',
-            eventbusVersion      : '3.0.0'
-    ]
-
     repositories {
-        jcenter()
+        mavenCentral()
+        google()
     }
 }

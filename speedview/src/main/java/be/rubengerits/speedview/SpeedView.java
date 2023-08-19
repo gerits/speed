@@ -14,10 +14,11 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+
+import androidx.core.content.ContextCompat;
 
 import be.rubengerits.speedview.utils.BoundaryRectangle;
 import be.rubengerits.speedview.utils.DisplayUtils;
@@ -141,16 +142,17 @@ public class SpeedView extends View implements ValueAnimator.AnimatorUpdateListe
         boundaries.validateXMax(boundaries.getXMax() + padding);
         boundaries.validateYMax(boundaries.getYMax() + padding);
 
+        Bitmap tmpBitmap = this.bitmap;
         if (!cropped) {
-            bitmap = cropBitmapToBoundaries(bitmap, boundaries);
-            virtualCanvas = new Canvas(bitmap);
+            tmpBitmap = cropBitmapToBoundaries(this.bitmap, boundaries);
+            virtualCanvas = new Canvas(this.bitmap);
             virtualCanvas.save();
         }
 
-        int x = (getMeasuredWidth() - bitmap.getWidth()) / 2;
-        int y = (getMeasuredHeight() - bitmap.getHeight()) / 2;
+        int x = (getMeasuredWidth() - tmpBitmap.getWidth()) / 2;
+        int y = (getMeasuredHeight() - tmpBitmap.getHeight()) / 2;
 
-        canvas.drawBitmap(bitmap, x, y, null);
+        canvas.drawBitmap(tmpBitmap, x, y, null);
     }
 
     private void drawNeedle(Canvas c) {

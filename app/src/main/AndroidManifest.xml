@@ -19,8 +19,8 @@
 
         <activity
             android:name=".SpeedActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Speed">
+            android:theme="@style/Theme.Speed"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -32,7 +32,8 @@
         <activity
             android:name=".ToolsActivity"
             android:label="Tools"
-            android:theme="@style/Theme.Speed">
+            android:theme="@style/Theme.Speed"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

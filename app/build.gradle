@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
+//apply plugin: 'android-apt'
 
 buildscript {
     repositories {
@@ -11,12 +11,12 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 33
+    buildToolsVersion '34.0.0'
     defaultConfig {
         applicationId "be.rubengerits.speed"
-        minSdkVersion 16
-        targetSdkVersion 23
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode 9
         versionName "2.3"
     }
@@ -30,8 +30,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     productFlavors {
     }
@@ -44,13 +44,14 @@ android {
 }
 
 dependencies {
-    compile project(':speedview')
-    compile project(':imagetogglebar')
-    compile 'org.greenrobot:eventbus:' + deps.eventbusVersion
-    compile 'com.jakewharton:butterknife:' + deps.butterknifeVersion
-    apt 'com.jakewharton:butterknife-compiler:' + deps.butterknifeVersion
-    compile 'com.android.support:appcompat-v7:' + deps.androidSupportVersion
-    compile 'com.android.support:design:' + deps.androidSupportVersion
+    implementation project(':speedview')
+    implementation project(':imagetogglebar')
+    implementation 'org.greenrobot:eventbus:3.3.1'
+    implementation 'com.jakewharton:butterknife:8.0.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.0.1'
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
 }
 
 

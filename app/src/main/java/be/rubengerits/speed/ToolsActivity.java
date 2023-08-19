@@ -3,13 +3,14 @@ package be.rubengerits.speed;
 import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.View;
 import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import be.rubengerits.speed.speedservices.GpsStatusService;
 import be.rubengerits.speed.speedservices.SpeedServiceRepository;

@@ -29,3 +29,12 @@ proguard/
 #idea
 *.idea
 *.iml
+speed.zip
+java_pid15317.hprof
+app/release/app-release.aab
+app/.DS_Store
+.DS_Store
+java_pid15317.hprof
+app/key.properties
+app/app.iml
+app/speed.jks

@@ -13,12 +13,12 @@ plugins {
 
 android {
     namespace = "dev.gerits.speed"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "be.rubengerits.speed"
         minSdk = 31
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 

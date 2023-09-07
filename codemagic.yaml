@@ -10,6 +10,7 @@ workflows:
         - google_play
       vars:
         PACKAGE_NAME: "be.rubengerits.speed"
+        JAVA_HOME: "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
     scripts:
       - name: Set Android SDK location
         script: |

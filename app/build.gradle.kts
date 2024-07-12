@@ -19,7 +19,7 @@ android {
         applicationId = "be.rubengerits.speed"
         minSdk = 31
         targetSdk = 35
-        versionCode = 11
+        versionCode = 12
         versionName = "3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

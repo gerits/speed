@@ -1,6 +1,7 @@
 package dev.gerits.speed.ui.theme
 
 import android.app.Activity
+import android.view.WindowInsets
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -99,7 +100,14 @@ fun SpeedTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            window.decorView.setOnApplyWindowInsetsListener { view, insets ->
+                val statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars())
+                view.setBackgroundColor(colorScheme.primary.toArgb())
+
+                view.setPadding(0, statusBarInsets.top, 0, 0)
+                insets
+            }
+
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }

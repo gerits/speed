@@ -1,6 +1,6 @@
 package dev.gerits.speed.ui.overview
 
-import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.Ease
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Text
@@ -28,7 +26,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import dev.gerits.speed.data.Location
-import dev.gerits.speed.ui.component.compas.Compass
 import dev.gerits.speed.ui.component.gauge.Gauge
 import dev.gerits.speed.ui.overview.OverviewUiState.Loading
 import dev.gerits.speed.ui.overview.OverviewUiState.Success
@@ -52,7 +49,6 @@ fun OverviewScreen(
         when (uiState) {
             is Success -> OverviewScreen(
                 location = (uiState as Success).location,
-                orientation = (uiState as Success).orientation,
                 modifier = modifier
             )
 
@@ -70,7 +66,6 @@ fun OverviewScreen(
 @Composable
 internal fun OverviewScreen(
     location: Location,
-    orientation: Float,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -78,27 +73,18 @@ internal fun OverviewScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Box {
-            Gauge(
-                modifier = Modifier
-                    .padding(32.dp)
-                    .fillMaxWidth(), speed = location.speed
-            )
-            Compass(
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-                    .align(Alignment.BottomStart),
-                orientation = orientation
-            )
-        }
+        Gauge(
+            modifier = Modifier
+                .padding(32.dp)
+                .fillMaxWidth(), speed = location.speed
+        )
     }
 }
 
 @Preview
 @Composable
 fun OverviewPreview() {
-    OverviewScreen(location = Location(1.0, 2.0, 3.0, 50.0f, 5.0f), 50f)
+    OverviewScreen(location = Location(1.0, 2.0, 3.0, 50.0f, 5.0f))
 }
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalPermissionsApi::class)
@@ -147,7 +133,7 @@ internal fun LoadingScreen(
         initialValue = 0f,
         targetValue = 100f,
         animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = EaseInOut),
+            animation = tween(2000, easing = Ease),
             repeatMode = RepeatMode.Reverse
         ),
         label = "color"

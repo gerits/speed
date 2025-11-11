@@ -2,7 +2,9 @@ package dev.gerits.speed.ui.component.gauge
 
 import android.os.Handler
 import android.os.Looper
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,7 +41,10 @@ fun Gauge(modifier: Modifier = Modifier, speed: Float, maximum: Float = 150f, sh
 
     val animatedSpeed by animateFloatAsState(
         targetValue = speed.coerceIn(0f, maximum) / maximum,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
     )
 
     val progressSweep = sweepAngle * animatedSpeed

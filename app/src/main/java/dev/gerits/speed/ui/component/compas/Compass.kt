@@ -5,11 +5,16 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
@@ -48,52 +53,50 @@ fun Compass(modifier: Modifier = Modifier, orientation: Float) {
         animationSpec = tween(durationMillis = 1000, easing = LinearOutSlowInEasing),
     )
 
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.Center
-    ) {
-        Spacer(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .aspectRatio(1f)
-                    .clip(MaterialShapes.Square.toShape())
-                    .background(MaterialTheme.colorScheme.secondaryContainer)
-        )
-        Spacer(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(8.dp)
-                    .aspectRatio(1f)
-                    .rotate(animatedRotation)
-                    .clip(MaterialShapes.Arrow.toShape())
-                    .background(MaterialTheme.colorScheme.primary)
-        )
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            text = determineDirection(orientation),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onPrimary,
-            style = MaterialTheme.typography.displaySmall
-        )
+    Card(modifier = modifier) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .aspectRatio(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp)
+                        .rotate(animatedRotation)
+                        .clip(MaterialShapes.Arrow.toShape())
+                        .background(MaterialTheme.colorScheme.primary)
+                )
+            }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                text = determineDirection(orientation),
+                textAlign = TextAlign.Start,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        }
     }
 }
 
 private fun determineDirection(direction: Float): String {
     val roundedDirection = round(direction / 45f)
     return when (roundedDirection) {
-        0f -> "N"
-        1f -> "NE"
-        2f -> "E"
-        3f -> "SE"
-        4f -> "S"
-        5f -> "SW"
-        6f -> "W"
-        7f -> "NW"
-        else -> "N"
+        0f -> "North"
+        1f -> "North East"
+        2f -> "East"
+        3f -> "South East"
+        4f -> "South"
+        5f -> "South West"
+        6f -> "West"
+        7f -> "North West"
+        else -> "North"
     }
 }
 
@@ -113,7 +116,9 @@ private fun shortestAngleDelta(currentAngle: Float, newAngle: Float): Float {
 fun CompassPreview() {
     SpeedTheme {
         Compass(
-            orientation = 150f, modifier = Modifier.fillMaxSize()
+            orientation = 150f, modifier = Modifier
+                .width(300.dp)
+                .height(100.dp)
         )
     }
 

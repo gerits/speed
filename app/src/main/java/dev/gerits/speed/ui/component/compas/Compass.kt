@@ -5,16 +5,14 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
@@ -33,12 +31,12 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import dev.gerits.speed.ui.theme.SpeedTheme
-import kotlin.math.round
 
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-@ExperimentalMaterial3ExpressiveApi
 fun Compass(modifier: Modifier = Modifier, orientation: Float) {
     var unwrappedAngle by remember { mutableStateOf(0f) }
 
@@ -53,51 +51,45 @@ fun Compass(modifier: Modifier = Modifier, orientation: Float) {
         animationSpec = tween(durationMillis = 1000, easing = LinearOutSlowInEasing),
     )
 
-    Card(modifier = modifier) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
+    BoxWithConstraints(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        val matchHeightConstraintsFirst = this.maxHeight < this.maxWidth
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .rotate(animatedRotation)
+                .clip(MaterialShapes.Circle.toShape())
+                .background(MaterialTheme.colorScheme.surfaceContainer)
+                .aspectRatio(1f, matchHeightConstraintsFirst)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
-            ) {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp)
-                        .rotate(animatedRotation)
-                        .clip(MaterialShapes.Arrow.toShape())
-                        .background(MaterialTheme.colorScheme.primary)
-                )
-            }
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                text = determineDirection(orientation),
-                textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
-            )
+            WindDirection("N", Alignment.TopCenter)
+            WindDirection("E", Alignment.CenterEnd)
+            WindDirection("S", Alignment.BottomCenter)
+            WindDirection("W", Alignment.CenterStart)
         }
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize(0.2f)
+                .aspectRatio(0.8f, matchHeightConstraintsFirst)
+                .clip(MaterialShapes.Arrow.toShape())
+                .background(MaterialTheme.colorScheme.primary)
+        )
     }
 }
 
-private fun determineDirection(direction: Float): String {
-    val roundedDirection = round(direction / 45f)
-    return when (roundedDirection) {
-        0f -> "North"
-        1f -> "North East"
-        2f -> "East"
-        3f -> "South East"
-        4f -> "South"
-        5f -> "South West"
-        6f -> "West"
-        7f -> "North West"
-        else -> "North"
-    }
+@Composable
+private fun BoxScope.WindDirection(text: String, alignment: Alignment) {
+    Text(
+        modifier = Modifier
+            .padding(8.dp)
+            .align(alignment),
+        text = text,
+        textAlign = TextAlign.Center,
+        fontSize = 2.em,
+        color = MaterialTheme.colorScheme.primary
+    )
 }
 
 private fun shortestAngleDelta(currentAngle: Float, newAngle: Float): Float {

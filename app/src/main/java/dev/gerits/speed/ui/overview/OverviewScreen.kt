@@ -6,18 +6,27 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -26,6 +35,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import dev.gerits.speed.data.Location
+import dev.gerits.speed.ui.component.compas.Compass
 import dev.gerits.speed.ui.component.gauge.Gauge
 import dev.gerits.speed.ui.overview.OverviewUiState.Loading
 import dev.gerits.speed.ui.overview.OverviewUiState.Success
@@ -49,6 +59,7 @@ fun OverviewScreen(
         when (uiState) {
             is Success -> OverviewScreen(
                 location = (uiState as Success).location,
+                orientation = (uiState as Success).orientation,
                 modifier = modifier
             )
 
@@ -62,10 +73,11 @@ fun OverviewScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 internal fun OverviewScreen(
     location: Location,
+    orientation: Float,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -73,18 +85,93 @@ internal fun OverviewScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        val matchHeightConstraintsFirst = currentWindowSize().height < currentWindowSize().width
+
         Gauge(
             modifier = Modifier
                 .padding(32.dp)
-                .fillMaxWidth(), speed = location.speed
+                .aspectRatio(1f, matchHeightConstraintsFirst)
+                .fillMaxWidth(),
+            speed = location.speed
         )
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+
+                ) {
+                Compass(
+                    modifier = Modifier
+                        .padding(end = 24.dp)
+                        .size(96.dp),
+                    orientation = orientation
+                )
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = "Enjoy the journey!",
+                    fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+//                Column(
+//                    modifier = Modifier.weight(1f)
+//                ) {
+//                    Text(
+//                        text = "TOTAL DISTANCE:",
+//                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
+//                        fontWeight = FontWeight.Bold,
+//                        color = MaterialTheme.colorScheme.primary
+//                    )
+//                    Spacer(modifier = Modifier.height(4.dp))
+//                    Text(
+//                        text = "12 km",
+//                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+//                        fontWeight = FontWeight.SemiBold,
+//                        color = MaterialTheme.colorScheme.secondary
+//                    )
+//                }
+//                VerticalDivider(
+//                    Modifier
+//                        .height(64.dp)
+//                        .padding(horizontal = 8.dp)
+//                )
+//                Column(
+//                    modifier = Modifier.weight(1f),
+//                    horizontalAlignment = Alignment.Start
+//                ) {
+//                    Text(
+//                        text = "MAX SPEED:",
+//                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
+//                        fontWeight = FontWeight.Bold,
+//                        color = MaterialTheme.colorScheme.primary
+//                    )
+//                    Spacer(modifier = Modifier.height(4.dp))
+//                    Text(
+//                        text = "120 km/h",
+//                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+//                        fontWeight = FontWeight.SemiBold,
+//                        color = MaterialTheme.colorScheme.secondary
+//                    )
+//                }
+            }
+
+        }
     }
 }
 
 @Preview
 @Composable
 fun OverviewPreview() {
-    OverviewScreen(location = Location(1.0, 2.0, 3.0, 50.0f, 5.0f))
+    OverviewScreen(
+        location = Location(1.0, 2.0, 3.0, 50.0f, 5.0f),
+        orientation = 120f,
+        modifier = Modifier.background(MaterialTheme.colorScheme.background)
+    )
 }
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalPermissionsApi::class)
@@ -93,7 +180,9 @@ internal fun LocationPermissionScreen(
     modifier: Modifier = Modifier,
     state: MultiplePermissionsState
 ) {
-    Column(modifier.padding(16.dp)) {
+    Column(
+        modifier.padding(16.dp)
+    ) {
         Column {
             val textToShow = if (state.shouldShowRationale) {
                 "The location is important for this app. Please grant the permission."

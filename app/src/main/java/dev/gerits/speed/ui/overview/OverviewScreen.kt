@@ -57,14 +57,17 @@ fun OverviewScreen(
     )
 
     if (locationPermissionState.allPermissionsGranted) {
-        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        val locationState by viewModel.locationState.collectAsStateWithLifecycle()
+        val orientation by viewModel.orientation.collectAsStateWithLifecycle()
         val maxSpeed by viewModel.maxSpeed.collectAsStateWithLifecycle()
+        val totalDistance by viewModel.totalDistance.collectAsStateWithLifecycle()
 
-        when (uiState) {
+        when (locationState) {
             is Success -> OverviewScreen(
-                location = (uiState as Success).location,
-                orientation = (uiState as Success).orientation,
+                location = (locationState as Success).location,
+                orientation = orientation,
                 maxSpeed = maxSpeed,
+                totalDistance = totalDistance,
                 modifier = modifier
             )
 
@@ -84,6 +87,7 @@ internal fun OverviewScreen(
     location: Location,
     orientation: Float,
     maxSpeed: Float,
+    totalDistance: Float,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -128,7 +132,7 @@ internal fun OverviewScreen(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "12 km",
+                        text = "%.${2}f km".format(totalDistance),
                         fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.secondary
@@ -169,6 +173,7 @@ fun OverviewPreview() {
         location = Location(1.0, 2.0, 3.0, 50.0f, 5.0f),
         orientation = 120f,
         maxSpeed = 60f,
+        totalDistance = 12.3219f,
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
     )
 }

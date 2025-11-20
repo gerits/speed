@@ -2,6 +2,7 @@ package dev.gerits.speed.data.location
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Location
 import android.os.Looper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Granularity
@@ -43,7 +44,7 @@ class DefaultLocationDataSource @Inject constructor(
                 override fun onLocationResult(result: LocationResult) {
                     super.onLocationResult(result)
                     result.lastLocation?.let {
-                        launch { send(toLocation(it)) }
+                        launch { send(it) }
                     }
                 }
             }
@@ -54,40 +55,4 @@ class DefaultLocationDataSource @Inject constructor(
             }
         }
     }
-
-    private fun toLocation(location: android.location.Location): Location = Location(
-        location.latitude,
-        location.longitude,
-        location.altitude,
-        location.speed,
-        location.bearing
-    )
-
 }
-
-//class LocationDataSource(
-//    private val client: FusedLocationProviderClient
-//) {
-//    val latestLocation: Flow<List<Location>> = flow {
-//        client.lastLocation.addOnSuccessListener { location ->
-//            location?.let {
-//                // Not a flow, but a one-time operation
-//            }
-//        }
-//    }.let {
-//        callbackFlow {
-//            val locationRequest = LocationRequest.create()
-//            val callback = object : LocationCallback() {
-//                override fun onLocationResult(result: LocationResult) {
-//                    trySend(result.locations.map { Location(it.latitude, it.longitude) })
-//                }
-//            }
-//            client.requestLocationUpdates(locationRequest, callback, Looper.getMainLooper())
-//                .addOnFailureListener { e -> close(e) }
-//
-//            awaitClose {
-//                client.removeLocationUpdates(callback)
-//            }
-//        }
-//    }
-//}

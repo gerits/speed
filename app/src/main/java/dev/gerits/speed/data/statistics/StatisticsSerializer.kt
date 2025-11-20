@@ -9,7 +9,7 @@ import java.io.OutputStream
 
 object StatisticsSerializer : Serializer<Statistics> {
 
-    override val defaultValue: Statistics = Statistics(maxSpeed = 0f)
+    override val defaultValue: Statistics = Statistics(maxSpeed = 0f, totalDistance = 0f)
 
     override suspend fun readFrom(input: InputStream): Statistics =
         try {

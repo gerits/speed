@@ -1,13 +1,9 @@
-package dev.gerits.speed.data.di
+package dev.gerits.speed.data.location
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.gerits.speed.data.DefaultLocationRepository
-import dev.gerits.speed.data.LocationRepository
-import dev.gerits.speed.data.source.DefaultLocationDataSource
-import dev.gerits.speed.data.source.LocationDataSource
 import javax.inject.Singleton
 
 @Module

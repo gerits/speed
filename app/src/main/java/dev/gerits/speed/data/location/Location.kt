@@ -1,4 +1,4 @@
-package dev.gerits.speed.data
+package dev.gerits.speed.data.location
 
 data class Location(
     val latitude: Double,

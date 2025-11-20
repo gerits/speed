@@ -1,4 +1,4 @@
-package dev.gerits.speed.data.source
+package dev.gerits.speed.data.location
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,7 +11,6 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.gerits.speed.data.Location
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow

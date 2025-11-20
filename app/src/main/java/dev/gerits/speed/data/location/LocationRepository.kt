@@ -1,6 +1,5 @@
-package dev.gerits.speed.data
+package dev.gerits.speed.data.location
 
-import dev.gerits.speed.data.source.LocationDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton

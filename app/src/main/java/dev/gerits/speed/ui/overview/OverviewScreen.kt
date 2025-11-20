@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -21,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.adaptive.currentWindowSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,7 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import dev.gerits.speed.data.Location
+import dev.gerits.speed.data.location.Location
 import dev.gerits.speed.ui.component.compas.Compass
 import dev.gerits.speed.ui.component.gauge.Gauge
 import dev.gerits.speed.ui.overview.OverviewUiState.Loading
@@ -55,11 +58,13 @@ fun OverviewScreen(
 
     if (locationPermissionState.allPermissionsGranted) {
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        val maxSpeed by viewModel.maxSpeed.collectAsStateWithLifecycle()
 
         when (uiState) {
             is Success -> OverviewScreen(
                 location = (uiState as Success).location,
                 orientation = (uiState as Success).orientation,
+                maxSpeed = maxSpeed,
                 modifier = modifier
             )
 
@@ -78,6 +83,7 @@ fun OverviewScreen(
 internal fun OverviewScreen(
     location: Location,
     orientation: Float,
+    maxSpeed: Float,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -111,55 +117,47 @@ internal fun OverviewScreen(
                         .size(96.dp),
                     orientation = orientation
                 )
-                Text(
-                    modifier = Modifier.weight(1f),
-                    text = "Enjoy the journey!",
-                    fontSize = MaterialTheme.typography.titleSmall.fontSize,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "TOTAL DISTANCE:",
+                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "12 km",
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+                VerticalDivider(
+                    Modifier
+                        .height(64.dp)
+                        .padding(horizontal = 8.dp)
                 )
-//                Column(
-//                    modifier = Modifier.weight(1f)
-//                ) {
-//                    Text(
-//                        text = "TOTAL DISTANCE:",
-//                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
-//                        fontWeight = FontWeight.Bold,
-//                        color = MaterialTheme.colorScheme.primary
-//                    )
-//                    Spacer(modifier = Modifier.height(4.dp))
-//                    Text(
-//                        text = "12 km",
-//                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-//                        fontWeight = FontWeight.SemiBold,
-//                        color = MaterialTheme.colorScheme.secondary
-//                    )
-//                }
-//                VerticalDivider(
-//                    Modifier
-//                        .height(64.dp)
-//                        .padding(horizontal = 8.dp)
-//                )
-//                Column(
-//                    modifier = Modifier.weight(1f),
-//                    horizontalAlignment = Alignment.Start
-//                ) {
-//                    Text(
-//                        text = "MAX SPEED:",
-//                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
-//                        fontWeight = FontWeight.Bold,
-//                        color = MaterialTheme.colorScheme.primary
-//                    )
-//                    Spacer(modifier = Modifier.height(4.dp))
-//                    Text(
-//                        text = "120 km/h",
-//                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-//                        fontWeight = FontWeight.SemiBold,
-//                        color = MaterialTheme.colorScheme.secondary
-//                    )
-//                }
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = "MAX SPEED:",
+                        fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "%.${0}f km/h".format(maxSpeed),
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
             }
-
         }
     }
 }
@@ -170,6 +168,7 @@ fun OverviewPreview() {
     OverviewScreen(
         location = Location(1.0, 2.0, 3.0, 50.0f, 5.0f),
         orientation = 120f,
+        maxSpeed = 60f,
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
     )
 }

@@ -12,6 +12,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -85,7 +86,7 @@ dependencies {
     implementation("androidx.compose.material3.adaptive:adaptive-layout")
 
     implementation("androidx.window:window-core-android:1.5.0")
-
+    implementation("androidx.datastore:datastore:1.1.7")
     implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
     implementation("androidx.core:core-ktx:1.17.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.4")
@@ -94,6 +95,8 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("com.google.accompanist:accompanist-permissions:0.37.3")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")

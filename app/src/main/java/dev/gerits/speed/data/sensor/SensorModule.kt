@@ -1,13 +1,9 @@
-package dev.gerits.speed.data.di
+package dev.gerits.speed.data.sensor
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.gerits.speed.data.DefaultSensorRepository
-import dev.gerits.speed.data.SensorRepository
-import dev.gerits.speed.data.source.DefaultSensorDataSource
-import dev.gerits.speed.data.source.SensorDataSource
 import javax.inject.Singleton
 
 @Module

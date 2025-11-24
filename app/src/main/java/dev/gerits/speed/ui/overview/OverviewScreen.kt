@@ -132,7 +132,7 @@ internal fun OverviewScreen(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "%.${2}f km".format(totalDistance),
+                        text = "%.${2}f km".format(totalDistance / 1000),
                         fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.secondary

@@ -21,7 +21,7 @@ import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,7 +38,7 @@ import dev.gerits.speed.ui.theme.SpeedTheme
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun Compass(modifier: Modifier = Modifier, orientation: Float) {
-    var unwrappedAngle by remember { mutableStateOf(0f) }
+    var unwrappedAngle by remember { mutableFloatStateOf(0f) }
 
     LaunchedEffect(orientation) {
         val currentCircleAngle = (unwrappedAngle % 360 + 360) % 360

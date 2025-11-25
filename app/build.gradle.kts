@@ -7,12 +7,12 @@ val keystoreProperties =
     }
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -72,38 +72,38 @@ android {
 
 dependencies {
 
-    implementation(platform("androidx.compose:compose-bom:2025.11.01"))
+    implementation(platform(libs.androidx.compose.bom))
 
-    implementation("com.google.dagger:hilt-android:2.57.1")
-    implementation("com.google.dagger:dagger-compiler:2.57.1")
-    ksp("com.google.dagger:hilt-android-compiler:2.57.1")
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation(libs.hilt.android)
+    implementation(libs.dagger.compiler)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
 
-    implementation("androidx.compose.material3:material3:1.5.0-alpha09")
-    implementation("androidx.compose.material3.adaptive:adaptive")
-    implementation("androidx.compose.material3.adaptive:adaptive-layout")
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.adaptive)
+    implementation(libs.androidx.adaptive.layout)
 
-    implementation("androidx.window:window-core-android:1.5.1")
-    implementation("androidx.datastore:datastore:1.2.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
-    implementation("androidx.core:core-ktx:1.17.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
-    implementation("androidx.activity:activity-compose:1.12.0")
-    implementation("androidx.navigation:navigation-compose:2.9.6")
+    implementation(libs.androidx.window.core)
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.navigation.compose)
 
-    implementation("com.google.android.gms:play-services-location:21.3.0")
-    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
+    implementation(libs.play.services.location)
+    implementation(libs.accompanist.permissions)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation(libs.kotlinx.serialization.json)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.3.0")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2025.11.01"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
 
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }

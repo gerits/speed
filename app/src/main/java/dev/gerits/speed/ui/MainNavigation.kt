@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import dev.gerits.speed.ui.overview.OverviewScreen
+import dev.gerits.speed.feature.overview.OverviewScreen
 
 @Composable
 fun MainNavigation() {

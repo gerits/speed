@@ -1,9 +1,8 @@
 [versions]
 agp = "8.10.1"
-kotlin = "2.2.10"
+kotlin = "2.2.20"
 ksp = "2.2.10-2.0.2"
 hilt = "2.57.1"
-serialization = "2.2.20"
 composeBom = "2025.11.01"
 material3 = "1.5.0-alpha09"
 window = "1.5.1"
@@ -50,8 +49,9 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

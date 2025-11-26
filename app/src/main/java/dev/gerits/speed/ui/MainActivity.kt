@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
-import dev.gerits.speed.ui.theme.SpeedTheme
+import dev.gerits.speed.core.ui.theme.SpeedTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

@@ -24,7 +24,7 @@ android {
         applicationId = "be.rubengerits.speed"
         minSdk = 31
         targetSdk = 36
-        versionCode = 14
+        versionCode = 15
         versionName = "4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -49,7 +49,8 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -88,7 +89,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
 
     implementation(libs.hilt.android)
-    implementation(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
